@@ -16,14 +16,14 @@ makejson = json.dumps
 DEFAULT_PORT_NO = 8888
 
 def usageguide():
-    print "InsecureBankv2 Backend-Server"
-    print "Options: "
-    print "  --port p    serve on port p (default 8888)"
-    print "  --help      print this message"
+    print ("InsecureBankv2 Backend-Server")
+    print ("Options: ")
+    print ("  --port p    serve on port p (default 8888)")
+    print ("  --help      print this message")
 
 @app.errorhandler(500)
 def internal_servererror(error):
-    print " [!]", error
+    print (" [!]", error)
     return "Internal Server Error", 500
 
 '''
@@ -35,7 +35,7 @@ def login():
     user = request.form['username']
     #checks for presence of user in the database #requires models.py
     u = User.query.filter(User.username == request.form["username"]).first()
-    print "u=",u
+    print ("u=",u)
     if u and u.password == request.form["password"]:
 	Responsemsg="Correct Credentials"
     elif u and u.password != request.form["password"]:
@@ -44,7 +44,7 @@ def login():
         Responsemsg="User Does not Exist"
     else: Responsemsg="Some Error"
     data = {"message" : Responsemsg, "user": user}
-    print makejson(data)
+    print (makejson(data))
     return makejson(data)
 
 '''
@@ -70,7 +70,7 @@ def getaccounts():
           if (i.type=='to'):
 	    to_acc=i.account_number;
     data = {"message" : Responsemsg, "from": from_acc,"to": to_acc}
-    print makejson(data)
+    print (makejson(data))
     return makejson(data)
 
 '''
@@ -82,7 +82,7 @@ def changepassword():
     Responsemsg="fail"
     newpassword=request.form['newpassword']
     user=request.form['username']
-    print newpassword
+    print (newpassword)
     u = User.query.filter(User.username == user).first() #checks for presence of user in the database
     if not u:
         Responsemsg="Error"
@@ -91,7 +91,7 @@ def changepassword():
 	u.password = newpassword
         db_session.commit()
     data = {"message" : Responsemsg}
-    print makejson(data)
+    print (makejson(data))
     return makejson(data)
     
 '''
@@ -133,7 +133,7 @@ def devlogin():
     user=request.form['username']
     Responsemsg="Correct Credentials"
     data = {"message" : Responsemsg, "user": user}
-    print makejson(data)
+    print (makejson(data))
     return makejson(data)
 
 if __name__ == '__main__':
@@ -149,7 +149,7 @@ if __name__ == '__main__':
     urls = ("/.*", "app")
     apps = web.application(urls, globals())
     server = wsgi.Server(("0.0.0.0", port),app,server_name='localhost')
-    print "The server is hosted on port:",(port)
+    print ("The server is hosted on port:",(port))
     
     try:
         server.start()
